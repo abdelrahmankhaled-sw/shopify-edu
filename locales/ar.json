@@ -42,14 +42,6 @@
     "slideshow_previous": "الشريحة السابقة"
   },
   "general": {
-    "404": {
-      "title": "الصفحة غير موجودة",
-      "subtext": "عذراً، الصفحة التي تبحث عنها غير موجودة.",
-      "link": "العودة إلى الصفحة الرئيسية"
-    },
-    "breadcrumbs": {
-      "home": "الرئيسية"
-    },
     "continue_shopping": "متابعة التسوق",
     "meta": {
       "tags": "مُصنف \"{{ tags }}\"",
@@ -170,7 +162,11 @@
       "view_all_label": "عرض جميع المنتجات في مجموعة {{ collection_name }}"
     },
     "collection_list": {
-      "view_all": "عرض الكل"
+      "view_all": "عرض الكل",
+      "product_count": {
+        "one": "{{ count }} منتج",
+        "other": "{{ count }} منتجات"
+      }
     },
     "collection_template": {
       "title": "المجموعة",
@@ -192,37 +188,6 @@
       "return": "العودة إلى تفاصيل الحساب"
     },
     "account_fallback": "الحساب",
-    "activate_account": {
-      "title": "تفعيل الحساب",
-      "subtext": "أنشئ كلمة المرور لتفعيل حسابك.",
-      "password": "كلمة المرور",
-      "password_confirm": "تأكيد كلمة المرور",
-      "submit": "تفعيل الحساب",
-      "cancel": "رفض الدعوة"
-    },
-    "addresses": {
-      "title": "العناوين",
-      "default": "افتراضي",
-      "add_new": "إضافة عنوان جديد",
-      "edit_address": "تعديل العنوان",
-      "first_name": "الاسم الأول",
-      "last_name": "اسم العائلة",
-      "company": "الشركة",
-      "address1": "العنوان 1",
-      "address2": "العنوان 2",
-      "city": "المدينة",
-      "country": "البلد/المنطقة",
-      "province": "المحافظة",
-      "zip": "الرمز البريدي",
-      "phone": "الهاتف",
-      "set_default": "تعيين كعنوان افتراضي",
-      "add": "إضافة عنوان",
-      "update": "تحديث العنوان",
-      "cancel": "إلغاء",
-      "edit": "تعديل",
-      "delete": "حذف",
-      "delete_confirm": "هل أنت متأكد أنك تريد حذف هذا العنوان؟"
-    },
     "log_in": "تسجيل الدخول",
     "log_out": "تسجيل الخروج",
     "login_page": {
@@ -236,54 +201,6 @@
       "title": "تسجيل الدخول",
       "sign_in": "تسجيل الدخول",
       "submit": "إرسال"
-    },
-    "orders": {
-      "title": "تاريخ الطلبات",
-      "order_number": "الطلب",
-      "order_number_link": "رقم الطلب {{ number }}",
-      "date": "التاريخ",
-      "payment_status": "حالة الدفع",
-      "fulfillment_status": "حالة التنفيذ",
-      "total": "الإجمالي",
-      "none": "لم تقم بأي طلبات بعد."
-    },
-    "recover_password": {
-      "title": "إعادة تعيين كلمة المرور",
-      "subtext": "سنرسل لك بريداً إلكترونياً لإعادة تعيين كلمة المرور",
-      "email": "البريد الإلكتروني",
-      "submit": "إرسال",
-      "cancel": "إلغاء",
-      "success": "لقد أرسلنا لك بريداً إلكترونياً مع رابط لتحديث كلمة المرور."
-    },
-    "register": {
-      "title": "إنشاء حساب",
-      "first_name": "الاسم الأول",
-      "last_name": "اسم العائلة",
-      "email": "البريد الإلكتروني",
-      "password": "كلمة المرور",
-      "submit": "إنشاء"
-    },
-    "reset_password": {
-      "title": "إعادة تعيين كلمة المرور للحساب",
-      "subtext": "أدخل كلمة مرور جديدة لـ {{ email }}",
-      "password": "كلمة المرور",
-      "password_confirm": "تأكيد كلمة المرور",
-      "submit": "إعادة تعيين كلمة المرور"
-    }
-  },
-  "gift_cards": {
-    "issued": {
-      "title": "إليك بطاقة هدايا {{ shop }} بقيمة {{ value }}!",
-      "subtext": "بطاقة الهدايا الخاصة بك",
-      "gift_card_code": "رمز بطاقة الهدايا",
-      "shop_link": "متابعة التسوق",
-      "remaining_html": "المتبقي {{ balance }}",
-      "add_to_apple_wallet": "إضافة إلى Apple Wallet",
-      "qr_image_alt": "رمز QR — امسحه ضوئياً لاستخدام بطاقة الهدايا",
-      "copy_code": "نسخ الرمز",
-      "expired": "منتهية الصلاحية",
-      "copy_code_success": "تم نسخ الرمز بنجاح",
-      "print_gift_card": "طباعة"
     }
   },
   "products": {
@@ -307,35 +224,7 @@
       "share": "مشاركة هذا المنتج",
       "sold_out": "نفد المخزون",
       "unavailable": "غير متوفر",
-      "vendor": "البائع",
-      "video_exit_message": "{{ title }} يفتح فيديو بملء الشاشة في نفس النافذة.",
-      "xr_button": "عرض في مساحتك",
-      "xr_button_label": "عرض في مساحتك، يحمل العنصر في نافذة الواقع المعزز",
-      "pickup_availability": {
-        "view_store_info": "عرض معلومات المتجر",
-        "check_other_stores": "تحقق من التوفر في متاجر أخرى",
-        "pick_up_available": "الاستلام متاح",
-        "pick_up_available_at_html": "الاستلام متاح في <span class=\"color-foreground\">{{ location_name }}</span>",
-        "pick_up_unavailable_at_html": "الاستلام غير متاح حالياً في <span class=\"color-foreground\">{{ location_name }}</span>",
-        "unavailable": "تعذر تحميل توفر الاستلام",
-        "refresh": "تحديث"
-      },
-      "media": {
-        "open_media": "فتح الوسائط {{ index }} في النافذة المنبثقة",
-        "play_model": "تشغيل عارض ثلاثي الأبعاد",
-        "play_video": "تشغيل الفيديو",
-        "gallery_viewer": "عارض المعرض",
-        "load_image": "تحميل الصورة {{ index }} في عرض المعرض",
-        "load_model": "تحميل النموذج ثلاثي الأبعاد {{ index }} في عرض المعرض",
-        "load_video": "تشغيل الفيديو {{ index }} في عرض المعرض",
-        "image_available": "الصورة {{ index }} متاحة الآن في عرض المعرض"
-      },
-      "view_full_details": "عرض التفاصيل الكاملة",
-      "include_taxes": "الضريبة مشمولة.",
-      "shipping_policy_html": "<a href=\"{{ link }}\">الشحن</a> محسوب عند الدفع."
-    },
-    "modal": {
-      "label": "معرض الوسائط"
+      "vendor": "البائع"
     },
     "facets": {
       "apply": "تطبيق",
@@ -395,58 +284,10 @@
         "post_success": "شكراً لتواصلك معنا. سنعاود الاتصال بك في أقرب وقت ممكن.",
         "error_heading": "يرجى تعديل ما يلي:"
       }
-    },
-    "404": {
-      "title": "الصفحة غير موجودة",
-      "subtext": "404"
-    }
-  },
-  "sections": {
-    "collection_list": {
-      "product_count": {
-        "one": "{{ count }} منتج",
-        "other": "{{ count }} منتجات"
-      }
     }
   },
   "notifications": {
     "item_added_to_cart": "تمت إضافة {{ name }} إلى السلة",
     "required_field": "يرجى ملء جميع الحقول المطلوبة(*) قبل الإرسال."
-  },
-  "pagefly": {
-    "products": {
-      "product": {
-        "regular_price": "السعر العادي",
-        "sold_out": "نفد المخزون",
-        "unavailable": "غير متوفر",
-        "on_sale": "عرض",
-        "quantity": "الكمية",
-        "add_to_cart": "إضافة إلى السلة",
-        "back_to_collection": "العودة إلى {{ title }}",
-        "view_details": "عرض التفاصيل"
-      }
-    },
-    "article": {
-      "tags": "العلامات:",
-      "all_topics": "جميع المواضيع",
-      "by_author": "بواسطة {{ author }}",
-      "posted_in": "منشور في",
-      "read_more": "اقرأ المزيد",
-      "back_to_blog": "العودة إلى {{ title }}"
-    },
-    "comments": {
-      "title": "اترك تعليقاً",
-      "name": "الاسم",
-      "email": "البريد الإلكتروني",
-      "message": "الرسالة",
-      "post": "نشر التعليق",
-      "moderated": "يرجى ملاحظة أن التعليقات يجب الموافقة عليها قبل نشرها",
-      "success_moderated": "تم نشر تعليقك بنجاح. سننشره خلال فترة قصيرة، حيث أن مدونتنا تخضع للإشراف.",
-      "success": "تم نشر تعليقك بنجاح! شكراً لك!",
-      "comments_with_count": {
-        "one": "{{ count }} تعليق",
-        "other": "{{ count }} تعليقات"
-      }
-    }
   }
 }
