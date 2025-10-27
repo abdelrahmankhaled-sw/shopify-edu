@@ -1,0 +1,322 @@
+/* RTL (Right-to-Left) Support for Arabic */
+
+/* Apply RTL styles only when html has rtl class */
+html.rtl {
+  direction: rtl;
+}
+
+/* Header RTL Styles */
+html.rtl .header {
+  direction: rtl;
+}
+
+html.rtl .header__inner {
+  direction: rtl;
+}
+
+/* Logo positioning for RTL */
+html.rtl .header__logo {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+/* Menu items alignment for RTL */
+html.rtl .header__menu {
+  direction: rtl;
+}
+
+html.rtl .header__menu-item {
+  margin-right: 0;
+  margin-left: 1rem;
+}
+
+html.rtl .header__menu-item:first-child {
+  margin-left: 0;
+}
+
+html.rtl .header__menu-item:last-child {
+  margin-right: 1rem;
+}
+
+/* Navigation arrows for RTL */
+html.rtl .icon-arrow {
+  transform: scaleX(-1);
+}
+
+html.rtl .icon-chevron-left {
+  transform: scaleX(-1);
+}
+
+html.rtl .icon-chevron-right {
+  transform: scaleX(-1);
+}
+
+/* Search and actions alignment */
+html.rtl .header__search {
+  direction: rtl;
+}
+
+html.rtl .header__actions {
+  direction: rtl;
+}
+
+html.rtl .header__actions > * {
+  margin-right: 0;
+  margin-left: 1rem;
+}
+
+html.rtl .header__actions > *:first-child {
+  margin-left: 0;
+}
+
+/* Cart icon positioning */
+html.rtl .cart-icon {
+  direction: rtl;
+}
+
+/* Dropdown menus for RTL */
+html.rtl .dropdown {
+  right: 0;
+  left: auto;
+}
+
+html.rtl .mega-menu {
+  right: 0;
+  left: auto;
+  direction: rtl;
+}
+
+/* Mobile menu for RTL */
+html.rtl .mobile-menu {
+  right: 0;
+  left: auto;
+  direction: rtl;
+}
+
+html.rtl .mobile-menu__item {
+  text-align: right;
+}
+
+/* Breadcrumbs for RTL */
+html.rtl .breadcrumbs {
+  direction: rtl;
+}
+
+html.rtl .breadcrumb__item::after {
+  content: "\\";
+  margin: 0 0.5rem;
+}
+
+/* Product cards and grids */
+html.rtl .product-card {
+  direction: rtl;
+}
+
+html.rtl .product-card__title {
+  text-align: right;
+}
+
+html.rtl .product-card__price {
+  text-align: right;
+}
+
+/* Buttons and form elements */
+html.rtl .btn {
+  direction: rtl;
+}
+
+html.rtl .form-control {
+  direction: rtl;
+  text-align: right;
+}
+
+html.rtl .form-label {
+  text-align: right;
+}
+
+/* Footer for RTL */
+html.rtl .footer {
+  direction: rtl;
+}
+
+html.rtl .footer__content {
+  direction: rtl;
+}
+
+html.rtl .footer__menu {
+  text-align: right;
+}
+
+/* Slideshow and carousel controls */
+html.rtl .slideshow__controls {
+  direction: rtl;
+}
+
+html.rtl .slideshow__arrow--prev {
+  right: 1rem;
+  left: auto;
+}
+
+html.rtl .slideshow__arrow--next {
+  left: 1rem;
+  right: auto;
+}
+
+/* Text alignment for RTL content */
+html.rtl h1,
+html.rtl h2,
+html.rtl h3,
+html.rtl h4,
+html.rtl h5,
+html.rtl h6 {
+  text-align: right;
+}
+
+html.rtl p {
+  text-align: right;
+}
+
+/* Flexbox adjustments for RTL */
+html.rtl .flex-row-reverse {
+  flex-direction: row-reverse;
+}
+
+/* Margin and padding utilities for RTL */
+html.rtl .ml-auto {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+html.rtl .mr-auto {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+html.rtl .pl-0 {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+html.rtl .pr-0 {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+/* Specific adjustments for Horizon theme */
+html.rtl .header-row {
+  direction: rtl;
+}
+
+html.rtl .header-row__content {
+  direction: rtl;
+}
+
+/* Announcement bar for RTL */
+html.rtl .announcement-bar {
+  direction: rtl;
+}
+
+html.rtl .announcement-bar__message {
+  text-align: center; /* Keep centered for announcements */
+}
+
+/* Search modal and predictive search */
+html.rtl .search-modal {
+  direction: rtl;
+}
+
+html.rtl .predictive-search {
+  direction: rtl;
+}
+
+html.rtl .predictive-search__results {
+  text-align: right;
+}
+
+/* Collection and product filters */
+html.rtl .filters {
+  direction: rtl;
+}
+
+html.rtl .filter-group {
+  direction: rtl;
+}
+
+html.rtl .filter-group__title {
+  text-align: right;
+}
+
+/* Pagination */
+html.rtl .pagination {
+  direction: rtl;
+}
+
+html.rtl .pagination__item {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+/* Media queries for responsive RTL */
+@media (max-width: 768px) {
+  html.rtl .header__menu {
+    text-align: right;
+  }
+  
+  html.rtl .mobile-menu__toggle {
+    right: auto;
+    left: 1rem;
+  }
+  
+  html.rtl .header__logo {
+    text-align: center;
+  }
+}
+
+/* Additional RTL support for common UI elements */
+html.rtl .tooltip {
+  direction: rtl;
+}
+
+html.rtl .modal {
+  direction: rtl;
+}
+
+html.rtl .modal-header {
+  direction: rtl;
+}
+
+html.rtl .modal-body {
+  text-align: right;
+}
+
+html.rtl .alert {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Fix for icons that should not be flipped */
+html.rtl .icon-search,
+html.rtl .icon-cart,
+html.rtl .icon-account,
+html.rtl .icon-close {
+  transform: none;
+}
+
+/* Ensure proper text rendering for Arabic */
+html.rtl {
+  font-feature-settings: "liga" 1, "kern" 1;
+  text-rendering: optimizeLegibility;
+}
+
+/* Arabic font stack (you can customize this based on your font preferences) */
+html.rtl body {
+  font-family: 'Noto Sans Arabic', 'Amiri', 'Scheherazade', 'Lateef', Arial, sans-serif;
+}
+
+/* Ensure numbers are displayed correctly in Arabic context */
+html.rtl .price,
+html.rtl .quantity,
+html.rtl .number {
+  direction: ltr;
+  unicode-bidi: embed;
+}
