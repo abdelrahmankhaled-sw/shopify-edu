@@ -1,0 +1,178 @@
+name: Shopify Theme Deployment
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  SHOPIFY_STORE: ${{ secrets.SHOPIFY_STORE }}
+  SHOPIFY_PASSWORD: ${{ secrets.SHOPIFY_PASSWORD }}
+  SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }}
+
+jobs:
+  lint-and-validate:
+    runs-on: ubuntu-latest
+    name: Lint and Validate Theme
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install Shopify CLI
+      run: npm install -g @shopify/cli @shopify/theme
+
+    - name: Theme Check (Lint)
+      run: shopify theme check
+
+  deploy-development:
+    needs: lint-and-validate
+    runs-on: ubuntu-latest
+    name: Deploy to Development
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/develop'
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install Shopify CLI
+      run: npm install -g @shopify/cli @shopify/theme
+
+    - name: Deploy to Development Theme
+      run: |
+        shopify theme push --development --store=$SHOPIFY_STORE --password=$SHOPIFY_PASSWORD --json > deploy-result.json
+        cat deploy-result.json
+
+    - name: Get Development Theme URL
+      id: dev-url
+      run: |
+        THEME_ID=$(cat deploy-result.json | jq -r '.theme.id // empty')
+        if [ ! -z "$THEME_ID" ]; then
+          DEV_URL="https://$SHOPIFY_STORE.myshopify.com/?preview_theme_id=$THEME_ID"
+          echo "dev_url=$DEV_URL" >> $GITHUB_OUTPUT
+          echo "theme_id=$THEME_ID" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Comment PR with Preview Link
+      if: github.event_name == 'pull_request' && steps.dev-url.outputs.dev_url
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const devUrl = '${{ steps.dev-url.outputs.dev_url }}';
+          const themeId = '${{ steps.dev-url.outputs.theme_id }}';
+          
+          const body = `🚀 **Theme Deployed Successfully!**
+          
+          **Preview URL:** [View Development Theme](${devUrl})
+          **Theme ID:** ${themeId}
+          
+          The theme has been deployed to a development environment. You can preview your changes before they go live.
+          
+          **What's included in this deployment:**
+          - RTL support for Arabic language
+          - Homepage banner updates
+          - Theme improvements
+          
+          *This is an automated deployment from GitHub Actions.*`;
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: body
+          });
+
+  deploy-production:
+    needs: lint-and-validate
+    runs-on: ubuntu-latest
+    name: Deploy to Production
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install Shopify CLI
+      run: npm install -g @shopify/cli @shopify/theme
+
+    - name: Backup Current Live Theme
+      run: |
+        echo "Creating backup of current live theme..."
+        shopify theme pull --live --store=$SHOPIFY_STORE --password=$SHOPIFY_PASSWORD --path=backup-$(date +%Y%m%d-%H%M%S) || echo "Backup failed, continuing with deployment"
+
+    - name: Deploy to Live Theme (Code Only)
+      run: |
+        echo "Deploying theme code while preserving content..."
+        # Deploy only code files, exclude content files that might be modified in admin
+        shopify theme push --live --store=$SHOPIFY_STORE --password=$SHOPIFY_PASSWORD \
+          --ignore="templates/*.json" \
+          --ignore="config/settings_data.json" \
+          --json > deploy-result.json
+        cat deploy-result.json
+
+    - name: Deploy Content Files Separately (Optional)
+      run: |
+        echo "Deploying content files with caution..."
+        # Only deploy content files if they have significant changes
+        # This step can be customized based on your needs
+        shopify theme push --live --store=$SHOPIFY_STORE --password=$SHOPIFY_PASSWORD \
+          --only="templates/index.json" \
+          --json || echo "Content deployment skipped or failed"
+
+    - name: Create Release
+      if: success()
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ github.run_number }}
+        release_name: Theme Release v${{ github.run_number }}
+        body: |
+          🚀 **Automated Theme Deployment**
+          
+          **Deployed to:** Production (Live Theme)
+          **Commit:** ${{ github.sha }}
+          **Branch:** ${{ github.ref_name }}
+          
+          **Changes included:**
+          - Latest theme updates
+          - RTL support for Arabic
+          - Homepage banner improvements
+          - Bug fixes and enhancements
+          
+          **Store URL:** https://${{ secrets.SHOPIFY_STORE }}.myshopify.com
+        draft: false
+        prerelease: false
+
+  notify-deployment:
+    needs: [deploy-production]
+    runs-on: ubuntu-latest
+    name: Notify Deployment Success
+    if: always() && github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Deployment Status
+      run: |
+        if [ "${{ needs.deploy-production.result }}" == "success" ]; then
+          echo "✅ Production deployment successful!"
+          echo "Store URL: https://${{ secrets.SHOPIFY_STORE }}.myshopify.com"
+        else
+          echo "❌ Production deployment failed!"
+          exit 1
+        fi

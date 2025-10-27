@@ -1,0 +1,298 @@
+{% comment %}
+  Announcement Banner Section
+  A prominent banner for announcements, promotions, or important messages
+{% endcomment %}
+
+<style>
+  .announcement-banner {
+    background: {{ section.settings.background_color | default: '#007acc' }};
+    color: {{ section.settings.text_color | default: '#ffffff' }};
+    text-align: center;
+    padding: {{ section.settings.padding_top | default: 15 }}px 20px {{ section.settings.padding_bottom | default: 15 }}px;
+    font-size: {{ section.settings.font_size | default: 16 }}px;
+    font-weight: {{ section.settings.font_weight | default: 'normal' }};
+    position: relative;
+    z-index: 10;
+  }
+
+  .announcement-banner__content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .announcement-banner__text {
+    margin: 0;
+  }
+
+  .announcement-banner__link {
+    color: inherit;
+    text-decoration: underline;
+    font-weight: bold;
+  }
+
+  .announcement-banner__link:hover {
+    opacity: 0.8;
+  }
+
+  .announcement-banner__button {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: inherit;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+
+  .announcement-banner__button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+  }
+
+  .announcement-banner--dismissible {
+    padding-right: 50px;
+  }
+
+  .announcement-banner__close {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+  }
+
+  .announcement-banner__close:hover {
+    opacity: 0.7;
+  }
+
+  /* RTL Support */
+  html.rtl .announcement-banner--dismissible {
+    padding-right: 20px;
+    padding-left: 50px;
+  }
+
+  html.rtl .announcement-banner__close {
+    right: auto;
+    left: 15px;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .announcement-banner {
+      font-size: {{ section.settings.mobile_font_size | default: 14 }}px;
+      padding: {{ section.settings.mobile_padding_top | default: 12 }}px 15px {{ section.settings.mobile_padding_bottom | default: 12 }}px;
+    }
+
+    .announcement-banner__content {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .announcement-banner__button {
+      padding: 6px 12px;
+      font-size: 14px;
+    }
+  }
+</style>
+
+{%- if section.settings.message != blank -%}
+  <div class="announcement-banner{% if section.settings.dismissible %} announcement-banner--dismissible{% endif %}" 
+       id="announcement-banner-{{ section.id }}"
+       role="banner">
+    <div class="announcement-banner__content">
+      <div class="announcement-banner__text">
+        {{ section.settings.message }}
+        {%- if section.settings.link != blank and section.settings.link_text != blank -%}
+          <a href="{{ section.settings.link }}" class="announcement-banner__link">
+            {{ section.settings.link_text }}
+          </a>
+        {%- endif -%}
+      </div>
+      
+      {%- if section.settings.button_text != blank and section.settings.button_link != blank -%}
+        <a href="{{ section.settings.button_link }}" class="announcement-banner__button">
+          {{ section.settings.button_text }}
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.dismissible -%}
+      <button class="announcement-banner__close" 
+              onclick="document.getElementById('announcement-banner-{{ section.id }}').style.display='none'"
+              aria-label="{{ 'accessibility.close_dialog' | t }}">
+        ×
+      </button>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Announcement Banner",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "message",
+      "label": "Announcement Message",
+      "default": "🎉 Welcome to our store! Free shipping on orders over $50!"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Message Link (optional)"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link Text",
+      "default": "Learn more"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text (optional)",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#007acc"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Font Size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Font Weight",
+      "options": [
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "bold",
+          "label": "Bold"
+        }
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Mobile Settings"
+    },
+    {
+      "type": "range",
+      "id": "mobile_font_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Font Size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Top Padding",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Bottom Padding",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Behavior"
+    },
+    {
+      "type": "checkbox",
+      "id": "dismissible",
+      "label": "Allow users to dismiss banner",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement Banner",
+      "settings": {
+        "message": "🎉 Welcome to our store! Free shipping on orders over $50!",
+        "button_text": "Shop Now",
+        "background_color": "#007acc",
+        "text_color": "#ffffff"
+      }
+    }
+  ]
+}
+{% endschema %}

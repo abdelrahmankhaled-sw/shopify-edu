@@ -1,0 +1,50 @@
+name: Deploy Shopify Theme
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install Shopify CLI
+      run: npm install -g @shopify/cli @shopify/theme
+
+    - name: Deploy to Shopify (Development)
+      if: github.event_name == 'pull_request'
+      run: |
+        shopify theme push --development --store=${{ secrets.SHOPIFY_STORE }} --password=${{ secrets.SHOPIFY_PASSWORD }}
+      env:
+        SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }}
+
+    - name: Deploy to Shopify (Live Theme)
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: |
+        shopify theme push --live --store=${{ secrets.SHOPIFY_STORE }} --password=${{ secrets.SHOPIFY_PASSWORD }}
+      env:
+        SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }}
+
+    - name: Comment on PR
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: '🚀 Theme deployed to development environment! You can preview the changes in your Shopify admin.'
+          })
