@@ -39,5 +39,6 @@ jobs:
           shopify theme push \
             --store ${{ secrets.SHOPIFY_STORE }} \
             --password ${{ steps.get_token.outputs.token }} \
-            --theme live \
-            --allow-live
+            --path . \
+            --allow-live \
+            --live
