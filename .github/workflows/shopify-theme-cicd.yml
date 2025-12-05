@@ -1,0 +1,39 @@
+name: Shopify Theme CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install Shopify CLI
+        run: npm install -g @shopify/cli
+      - name: Get Access Token
+        id: get_token
+        run: |
+          TOKEN=$(curl -s -X POST \
+            "https://${{ secrets.SHOPIFY_STORE }}/admin/oauth/access_token" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "client_id": "${{ secrets.SHOPIFY_CLIENT_ID }}",
+              "client_secret": "${{ secrets.SHOPIFY_CLIENT_SECRET }}",
+              "grant_type": "client_credentials"
+            }' | jq -r '.access_token')
+          echo "::add-mask::$TOKEN"
+          echo "token=$TOKEN" >> $GITHUB_OUTPUT
+      - name: Deploy theme to Shopify
+        run: |
+          shopify theme push \
+            --store ${{ secrets.SHOPIFY_STORE }} \
+            --password ${{ steps.get_token.outputs.token }} \
+            --theme live \
+            --allow-live

@@ -7,6 +7,12 @@
     assign order = 'mobile_search,logo,menu,localization,search,actions'
   endif
 
+  # RTL support for Arabic
+  assign is_arabic = false
+  if localization.language.iso_code == 'ar'
+    assign is_arabic = true
+  endif
+
   assign rows = 'top,bottom' | split: ','
   assign search_style = 'none'
 
@@ -187,7 +193,7 @@
 
 <header-component
   id="header-component"
-  class="{{ class }}"
+  class="{{ class }}{% if is_arabic %} header--rtl{% endif %}"
   {% if transparent %}
     transparent="{{ transparent }}"
   {% endif %}

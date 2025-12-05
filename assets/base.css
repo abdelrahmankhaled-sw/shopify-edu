@@ -48,6 +48,11 @@ img {
   height: auto;
 }
 
+/* RTL header support for Arabic */
+.header--rtl {
+  direction: rtl;
+}
+
 input,
 textarea,
 select {
@@ -4231,6 +4236,7 @@ text-component {
   overflow: hidden;
   text-overflow: ellipsis;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
 }
 
 /* Product card title truncation - applied on mobile regardless of view */
@@ -4241,6 +4247,7 @@ text-component {
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
   }
 }
 
@@ -4295,4 +4302,8 @@ text-component {
   .h6.h6 select {
     font-size: max(1rem, 100%);
   }
+}
+
+.header--rtl {
+  direction: rtl;
 }
