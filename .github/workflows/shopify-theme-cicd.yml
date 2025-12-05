@@ -5,18 +5,21 @@ on:
     branches:
       - main
 
-
+jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
+      
       - name: Install Shopify CLI
         run: npm install -g @shopify/cli
+      
       - name: Get Access Token
         id: get_token
         run: |
@@ -30,6 +33,7 @@ on:
             }' | jq -r '.access_token')
           echo "::add-mask::$TOKEN"
           echo "token=$TOKEN" >> $GITHUB_OUTPUT
+      
       - name: Deploy theme to Shopify
         run: |
           shopify theme push \
